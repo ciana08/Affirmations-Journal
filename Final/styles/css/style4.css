@@ -1,0 +1,101 @@
+body {
+    background-color: #eaf6ff; 
+    font-family: 'Quicksand', sans-serif; 
+    margin: 0;
+    padding: 0;
+    color: #333333;
+    line-height: 1.6;
+}
+
+/* Top Navigation Bar */
+.topnav {
+    background-color: #a3cef1; 
+    overflow: hidden;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.topnav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 25px; 
+    transition: background-color 0.3s ease;
+}
+
+.topnav a.active, .topnav a:hover {
+    background-color: #7aaee3; 
+}
+
+h1 {
+    text-align: center;
+    color: #1f4f82; 
+    font-size: 2.5rem;
+    margin-top: 20px;
+}
+
+table {
+    width: 80%; /* Adjust the width to make it visually appealing */
+    margin: 20px auto; /* Center the table on the page */
+    border-collapse: collapse;
+    font-family: 'Roboto', sans-serif; /* Match the font of your site */
+    font-size: 16px;
+    background-color: #f4f9f9; /* Soft background color for the table */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Table Header */
+table thead {
+    background-color: #a3cef1; /* Light blue header background */
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Table Rows */
+table tbody tr {
+    border-bottom: 1px solid #ddd;
+}
+
+table tbody tr:nth-of-type(even) {
+    background-color: white; 
+}
+
+table tbody tr:hover {
+    background-color: #d4edf2; 
+    transition: background-color 0.3s ease;
+}
+
+/* Table Cells */
+table th, table td {
+    padding: 15px;
+    text-align: center; 
+}
+
+/* Centering the Delete Button */
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #7aaee3; 
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px; 
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #4a6fa5; 
+}

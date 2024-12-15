@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Mental Health Journal</title>
+    <link rel="stylesheet" href="/css/style6.css">
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="/home">Home</a>
+        <a href="/journal">My Journal</a>
+        <a href="/entries">Past Entries</a>
+        <a class="active" href="/affirmations">Daily Affirmation</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <h1>Your Daily Affirmation</h1>
+    <div class="container">
+        <p>
+            <%- affirmation %>
+        </p>
+    </div>
+
+    <form action="/affirmations" method="POST">
+        <div class="button-container"></div>
+            <input type="submit" value="Anotha One">
+        </div>
+    </form>
+	
+</body>
+
+</html>
