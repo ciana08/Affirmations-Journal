@@ -1,11 +1,9 @@
 const express = require("express"); 
 const path = require("path");
-const http = require("http");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const app = express(); 
-const server = http.createServer(app);
 const portNumber = 8000;
 const username = MONGO_DB_USERNAME;
 const password = MONGO_DB_PASSWORD;
@@ -43,7 +41,7 @@ app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:false}));
 
-/*
+
 app.use(
     session({
       secret: key, 
@@ -52,7 +50,6 @@ app.use(
       cookie: { maxAge: 1000 * 60 * 60 * 24 }, 
     })
 );
-*/
 
 app.get("/", (request, response) => {
     response.render('register.ejs');
@@ -110,8 +107,11 @@ app.post("/login", async(request, response) => {
         if (!passwordMatch) {
             return response.status(400).send("Invalid password.");
         }
-        response.cookie(name , user.name);
-        response.cookie(email, user.email);
+
+        request.session.user = {
+            name: user.name,
+            email: user.email
+        };
 
         response.render('index.ejs', { name: user.name });
     } catch (e) {
@@ -123,8 +123,8 @@ app.post("/login", async(request, response) => {
 });
 
 app.get("/home", (request, response) => {
-    if (request.cookies.user) {
-        const {name} = request.cookies.user;
+    if (request.session.user) {
+        const {name} = request.session.user;
         response.render('index.ejs', {name});
     } else {
         response.render('login.ejs'); 
@@ -135,6 +135,7 @@ app.post("/home", (request, response) => {
     response.render('journal.ejs');
 });
 
+/* 
 app.get("/journal", (request, response) => {
     response.render('journal.ejs');
 });
@@ -235,10 +236,16 @@ app.post("/affirmations", async(request, res) => {
     }
 })
 
+*/
+
 app.get("/logout", (request, response) => {
-    response.clearCookie(user.name);
-    response.clearCookie(user.email);
-    response.render('login.ejs');
+    request.session.destroy((e) => {
+        if(e) {
+          return response.status(500).send("Logout failed.");
+        }
+        response.render('login.ejs');
+      });
 });
 
-server.listen(portNumber);
+
+app.listen(portNumber);
