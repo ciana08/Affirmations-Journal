@@ -6,12 +6,11 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const app = express(); 
 const portNumber = 8000;
-require("dotenv").config({ path: path.resolve(__dirname, 'credentialsDontPost/.env') }) 
-const username = process.env.MONGO_DB_USERNAME;
-const password = process.env.MONGO_DB_PASSWORD;
-const dbName = process.env.MONGO_DB_NAME;
-const collectionName = process.env.MONGO_COLLECTION;
-const key = process.env.KEY;
+const username = MONGO_DB_USERNAME;
+const password = MONGO_DB_PASSWORD;
+const dbName = MONGO_DB_NAME;
+const collectionName = MONGO_COLLECTION;
+const key = KEY;
 const uri = "mongodb+srv://" + username + ":" + password + "@cluster0.2z0wg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const databaseAndCollection = {db: dbName, collection: collectionName};
 const { MongoClient, ServerApiVersion } = require('mongodb');
