@@ -52,12 +52,12 @@ app.use(
     })
 );
 
-app.get("/", (request, response) => {
+app.get("https://affirmations-journal.onrender.com/", (request, response) => {
     response.render('register.ejs');
 });
 
 /* adds name, email, hashed pass to database */
-app.post("/", async(request, response) => {
+app.post("https://affirmations-journal.onrender.com/", async(request, response) => {
     const{name, email, password} = request.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const data = {name, email, hashedPassword};
@@ -86,11 +86,11 @@ app.post("/", async(request, response) => {
     }
 });
 
-app.get("/login", (request, response) => {
+app.get("https://affirmations-journal.onrender.com/login", (request, response) => {
     response.render('login.ejs');
 });
 
-app.post("/login", async(request, response) => {
+app.post("https://affirmations-journal.onrender.com/login", async(request, response) => {
     const{name, email, password} = request.body;
     const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
     try {
