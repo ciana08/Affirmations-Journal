@@ -123,6 +123,8 @@ app.post("https://affirmations-journal.onrender.com/login", async(request, respo
     }
 });
 
+/* 
+
 app.get("/home", (request, response) => {
     if (request.session.user) {
         const {name} = request.session.user;
