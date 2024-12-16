@@ -15,6 +15,7 @@ const uri = "mongodb+srv://" + username + ":" + password + "@cluster0.2z0wg.mong
 const databaseAndCollection = {db: dbName, collection: collectionName};
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
+/*
 process.stdin.setEncoding("utf8");
 console.log(`Web server started and running at http://localhost:${portNumber}`);
 const prompt = "Stop to shutdown the server: ";
@@ -33,6 +34,7 @@ process.stdin.on('readable', () => {
         process.stdin.resume()
     }
 });
+*/
 
 app.use(express.static(path.join(__dirname, 'styles')));
 app.set("views", path.resolve(__dirname, "templates"));
@@ -40,6 +42,7 @@ app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:false}));
 
+/*
 app.use(
     session({
       secret: key, 
@@ -47,7 +50,8 @@ app.use(
       saveUninitialized: false,
       cookie: { maxAge: 1000 * 60 * 60 * 24 }, 
     })
-  );
+);
+*/
 
 app.get("/", (request, response) => {
     response.render('register.ejs');
@@ -105,11 +109,9 @@ app.post("/login", async(request, response) => {
         if (!passwordMatch) {
             return response.status(400).send("Invalid password.");
         }
-        request.session.user = {
-            name: user.name,
-            email: user.email
-        };
-        console.log(user.name);
+        response.cookie(name , user.name);
+        response.cookie(email, user.email);
+
         response.render('index.ejs', { name: user.name });
     } catch (e) {
         console.error(e);
@@ -120,8 +122,8 @@ app.post("/login", async(request, response) => {
 });
 
 app.get("/home", (request, response) => {
-    if (request.session.user) {
-        const {name} = request.session.user;
+    if (request.cookies.user) {
+        const {name} = request.cookies.user;
         response.render('index.ejs', {name});
     } else {
         response.render('login.ejs'); 
@@ -141,7 +143,7 @@ app.post("/journal", async(request, response) => {
     let date = request.body.date;
     let mood = request.body.mood;
     let entry = request.body.entry;
-    const email = request.session.user.email;
+    const email = request.cookies.email;
     const data = {title, date, mood, entry};
     const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
     try {
@@ -163,7 +165,7 @@ app.get("/entries", async(request, response) => {
     const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
     try {
         await client.connect();
-        const email = request.session.user.email;
+        const email = request.cookies.email;
         const user = client.db(databaseAndCollection.db)
                         .collection(databaseAndCollection.collection)
                         .findOne({email});
@@ -190,7 +192,7 @@ app.post("/entries", async(request, response) => {
     const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
     try {
         await client.connect();
-        const email = request.session.user.email;
+        const email = request.cookies.email;
         const result = await client.db(databaseAndCollection.db)
                             .collection(databaseAndCollection.collection)
                             .updateOne( {email}, {$unset: {journalEntries: ""}});
@@ -233,12 +235,9 @@ app.post("/affirmations", async(request, res) => {
 })
 
 app.get("/logout", (request, response) => {
-    request.session.destroy((e) => {
-      if(e) {
-        return response.status(500).send("Logout failed.");
-      }
-      response.render('login.ejs');
-    });
+    response.clearCookie(user.name);
+    response.clearCookie(user.email);
+    response.render('login.ejs');
 });
 
 app.listen(portNumber);
