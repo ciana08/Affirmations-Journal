@@ -71,7 +71,7 @@ app.post("/", async(request, response) => {
         const cursor = client.db(databaseAndCollection.db)
                         .collection(databaseAndCollection.collection)
                         .findOne(filter);
-        const result = await user;
+        const result = await cursor;
         if (result) {
             const user = await client.db(databaseAndCollection.db)
                             .collection(databaseAndCollection.collection)
