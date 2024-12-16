@@ -67,12 +67,12 @@ app.post("/", async(request, response) => {
     const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
     try {
         await client.connect();
-        let filter = {emails : { $eq: email} };
+        let filter = { email: email };
         const cursor = client.db(databaseAndCollection.db)
                         .collection(databaseAndCollection.collection)
-                        .find(filter);
-        const result = await cursor.toArray();
-        if (result.length === 0) {
+                        .findOne(filter);
+        const result = await user;
+        if (result) {
             const user = await client.db(databaseAndCollection.db)
                             .collection(databaseAndCollection.collection)
                             .insertOne(data);
