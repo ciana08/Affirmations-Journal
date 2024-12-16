@@ -88,13 +88,11 @@ app.post("/", async(request, response) => {
     }
 });
 
-app.get("login", (request, response) => {
+app.get("/login", (request, response) => {
     response.render('login.ejs');
 });
 
-/* 
-
-app.post("login", async(request, response) => {
+app.post("/login", async(request, response) => {
     const{name, email, password} = request.body;
     const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
     try {
@@ -127,8 +125,6 @@ app.post("login", async(request, response) => {
     }
 });
 
-
-
 app.get("/home", (request, response) => {
     if (request.session.user) {
         const {name} = request.session.user;
@@ -142,9 +138,6 @@ app.post("/home", (request, response) => {
     response.render('journal.ejs');
 });
 
-
-
-/* 
 app.get("/journal", (request, response) => {
     response.render('journal.ejs');
 });
@@ -244,8 +237,6 @@ app.post("/affirmations", async(request, res) => {
         res.status(500);
     }
 })
-
-*/
 
 app.get("/logout", (request, response) => {
     request.session.destroy((e) => {
