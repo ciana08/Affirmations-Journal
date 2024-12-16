@@ -175,10 +175,12 @@ app.get("/entries", async(request, response) => {
                         .findOne({email});
         const result = await user;
         console.log(result);
-        if (result.journalEntries) {
-            result.journalEntries.forEach((entry) => {
-                entries += "<tr><td>" + entry.date + "</td><td>" + entry.title + "</td><td>" + entry.mood + "</td><td>" + entry.entry + "</td></tr>";
-            });
+        if(result){
+            if (result.journalEntries) {
+                result.journalEntries.forEach((entry) => {
+                    entries += "<tr><td>" + entry.date + "</td><td>" + entry.title + "</td><td>" + entry.mood + "</td><td>" + entry.entry + "</td></tr>";
+                });
+            }
             response.render('entries.ejs', {entries});
         } else {
             entries += "<tr><td>" + none + "</td><td>" + none + "</td><td>" + none + "</td><td>" + none + "</td></tr>";
