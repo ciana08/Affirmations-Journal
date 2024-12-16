@@ -77,7 +77,7 @@ app.post("/", async(request, response) => {
             const user = await client.db(databaseAndCollection.db)
                             .collection(databaseAndCollection.collection)
                             .insertOne(data);
-            response.render('templates/login.ejs');
+            response.render('login.ejs');
         } else {
             return response.status(400).send("Email is already registered.");
         }
