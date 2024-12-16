@@ -42,7 +42,7 @@ app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:false}));
 
-
+/*
 app.use(
     session({
       secret: key, 
@@ -51,13 +51,14 @@ app.use(
       cookie: { maxAge: 1000 * 60 * 60 * 24 }, 
     })
 );
+*/
 
-app.get("https://affirmations-journal.onrender.com/", (request, response) => {
+app.get("/", (request, response) => {
     response.render('register.ejs');
 });
 
 /* adds name, email, hashed pass to database */
-app.post("https://affirmations-journal.onrender.com/", async(request, response) => {
+app.post("/", async(request, response) => {
     const{name, email, password} = request.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const data = {name, email, hashedPassword};
@@ -86,11 +87,13 @@ app.post("https://affirmations-journal.onrender.com/", async(request, response) 
     }
 });
 
-app.get("https://affirmations-journal.onrender.com/login", (request, response) => {
+app.get("login", (request, response) => {
     response.render('login.ejs');
 });
 
-app.post("https://affirmations-journal.onrender.com/login", async(request, response) => {
+/* 
+
+app.post("login", async(request, response) => {
     const{name, email, password} = request.body;
     const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
     try {
@@ -123,7 +126,7 @@ app.post("https://affirmations-journal.onrender.com/login", async(request, respo
     }
 });
 
-/* 
+
 
 app.get("/home", (request, response) => {
     if (request.session.user) {
@@ -137,6 +140,8 @@ app.get("/home", (request, response) => {
 app.post("/home", (request, response) => {
     response.render('journal.ejs');
 });
+
+
 
 /* 
 app.get("/journal", (request, response) => {
