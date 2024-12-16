@@ -6,11 +6,12 @@ const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const app = express(); 
 const portNumber = 8000;
-const username = MONGO_DB_USERNAME;
-const password = MONGO_DB_PASSWORD;
-const dbName = MONGO_DB_NAME;
-const collectionName = MONGO_COLLECTION;
-const key = KEY;
+require("dotenv").config({ path: path.resolve(__dirname, 'credentialsDontPost/.env') }) 
+const username = process.env.MONGO_DB_USERNAME;
+const password = process.env.MONGO_DB_PASSWORD;
+const dbName = process.env.MONGO_DB_NAME;
+const collectionName = process.env.MONGO_COLLECTION;
+const key = process.env.KEY;
 const uri = "mongodb+srv://" + username + ":" + password + "@cluster0.2z0wg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 const databaseAndCollection = {db: dbName, collection: collectionName};
 const { MongoClient, ServerApiVersion } = require('mongodb');
@@ -42,7 +43,7 @@ app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:false}));
 
-/*
+
 app.use(
     session({
       secret: key, 
@@ -51,7 +52,7 @@ app.use(
       cookie: { maxAge: 1000 * 60 * 60 * 24 }, 
     })
 );
-*/
+
 
 app.get("/", (request, response) => {
     response.render('register.ejs');
