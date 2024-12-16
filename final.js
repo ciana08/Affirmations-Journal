@@ -72,8 +72,7 @@ app.post("/", async(request, response) => {
                         .collection(databaseAndCollection.collection)
                         .find(filter);
         const result = await cursor.toArray();
-        console.log(result);
-        if (result == "") {
+        if (result.length === 0) {
             const user = await client.db(databaseAndCollection.db)
                             .collection(databaseAndCollection.collection)
                             .insertOne(data);
@@ -110,12 +109,10 @@ app.post("/login", async(request, response) => {
         if (!passwordMatch) {
             return response.status(400).send("Invalid password.");
         }
-
         request.session.user = {
             name: user.name,
             email: user.email
         };
-
         response.render('index.ejs', { name: user.name });
     } catch (e) {
         console.error(e);
@@ -147,7 +144,7 @@ app.post("/journal", async(request, response) => {
     let date = request.body.date;
     let mood = request.body.mood;
     let entry = request.body.entry;
-    const email = request.cookies.email;
+    const email = request.session.user.email;
     const data = {title, date, mood, entry};
     const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
     try {
@@ -169,7 +166,7 @@ app.get("/entries", async(request, response) => {
     const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
     try {
         await client.connect();
-        const email = request.cookies.email;
+        const email = request.session.user.email;
         const user = client.db(databaseAndCollection.db)
                         .collection(databaseAndCollection.collection)
                         .findOne({email});
@@ -198,7 +195,7 @@ app.post("/entries", async(request, response) => {
     const client = new MongoClient(uri, { serverApi: ServerApiVersion.v1 });
     try {
         await client.connect();
-        const email = request.cookies.email;
+        const email = request.session.user.email;
         const result = await client.db(databaseAndCollection.db)
                             .collection(databaseAndCollection.collection)
                             .updateOne( {email}, {$unset: {journalEntries: ""}});
