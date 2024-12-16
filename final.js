@@ -1,10 +1,11 @@
 const express = require("express"); 
 const path = require("path");
+const http = require("http");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
 const bcrypt = require("bcrypt");
 const app = express(); 
+const server = http.createServer(app);
 const portNumber = 8000;
 const username = MONGO_DB_USERNAME;
 const password = MONGO_DB_PASSWORD;
@@ -240,4 +241,4 @@ app.get("/logout", (request, response) => {
     response.render('login.ejs');
 });
 
-app.listen(portNumber);
+server.listen(portNumber);
